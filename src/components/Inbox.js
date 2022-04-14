@@ -11,10 +11,11 @@ export default function Inbox(props) {
    * Fetches the inbox from api
    */
   const fetchInbox = () => {
+    
     fetch(urlForInbox)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setMails(data);
       });
   };

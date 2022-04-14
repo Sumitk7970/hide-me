@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function EmailId(props) {
+export default function Email(props) {
   const urlForFakeEmail =
     "https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1";
 
