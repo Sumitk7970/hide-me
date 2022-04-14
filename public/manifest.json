@@ -1,6 +1,5 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "Hide-me",
   "version": "0.1.0",
   "manifest_version": 3,
   "icons": {
@@ -9,7 +8,7 @@
     "48": "icon16.png",
     "128": "icon16.png"
   },
-  "actions": {
+  "action": {
     "default_popup": "index.html"
   }
 }

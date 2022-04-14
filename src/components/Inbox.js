@@ -10,10 +10,11 @@ export default function Inbox(props) {
   /**
    * Fetches the inbox from api
    */
-  const refreshInbox = () => {
+  const fetchInbox = () => {
     fetch(urlForInbox)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
         setMails(data);
       });
   };
@@ -23,7 +24,7 @@ export default function Inbox(props) {
    */
   const renderInbox = (mail) => {
     return (
-      <tr key={mail.id}>
+      <tr key={mail.id} onClick={() => props.setActiveTab(mail.id)}>
         <td>{mail.from}</td>
         <td>{mail.subject}</td>
         <td>{mail.date}</td>
@@ -36,7 +37,9 @@ export default function Inbox(props) {
       <table className="table table-striped">
         <tbody>{mails?.map(renderInbox)}</tbody>
       </table>
-      <button className="btn btn-primary" onClick={refreshInbox}>Refresh Inbox</button>
+      <button className="btn btn-primary" onClick={fetchInbox}>
+        Refresh Inbox
+      </button>
     </div>
   );
 }
