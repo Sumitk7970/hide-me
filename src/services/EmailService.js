@@ -1,36 +1,57 @@
+/**
+ * @returns a random fake email id
+ */
 export async function generateRandomEmail() {
-  let email = "";
   const url =
     "https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1";
-  email = await fetch(url)
-    .then((response) => response.json())
-    .then(data => data[0]);
+  let response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Error generating email: ${response.status}`);
+  }
 
-  return email;
+  // the data is received as a array of email ids
+  let emails = await response.json();
+
+  return emails[0];
 }
 
-export async function fetchInbox(email) {
-    let userName = email.substring(0, email.lastIndexOf("@"));
-    let domain = email.substring(email.lastIndexOf("@") + 1);
-    let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${userName}&domain=${domain}`;
-    let emails = [];
+/**
+ * @param {string} emailId email id for fetching the messages
+ * @returns an array of message objects
+ */
+export async function fetchInbox(emailId) {
+  let userName = emailId.substring(0, emailId.lastIndexOf("@"));
+  let domain = emailId.substring(emailId.lastIndexOf("@") + 1);
+  let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${userName}&domain=${domain}`;
 
-    emails = await fetch(url)
-    .then(response => response.json())
-    .then((data) => data);
+  let response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Error fetching inbox: ${response.status}`);
+  }
 
-    return emails;
+  // the messages are received as an array of objects
+  let messages = await response.json();
+
+  return messages;
 }
 
-export async function fetchASingleMail(email, id) {
-    let userName = email.substring(0, email.lastIndexOf("@"));
-    let domain = email.substring(email.lastIndexOf("@") + 1);
-    let url = `https://www.1secmail.com/api/v1/?action=readMessage&login=${userName}&domain=${domain}&id=${id}`;
-    let mail = {};
+/**
+ * @param {string} emailId email id in which the email is received
+ * @param {number} messageId message id for the message
+ * @returns a single message object
+ */
+export async function fetchASingleMessage(emailId, messageId) {
+  let userName = emailId.substring(0, emailId.lastIndexOf("@"));
+  let domain = emailId.substring(emailId.lastIndexOf("@") + 1);
+  let url = `https://www.1secmail.com/api/v1/?action=readMessage&login=${userName}&domain=${domain}&id=${messageId}`;
 
-    mail = await fetch(url)
-    .then((response) => response.json())
-    .then((data) => data)
+  let response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Error fetching message: ${response.status}`);
+  }
 
-    return mail;
+  // the message is received as an object
+  let message = await response.json();
+
+  return message;
 }

@@ -1,44 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { fetchInbox } from "../services/EmailService";
 
 export default function Inbox(props) {
-  let userName = props.email.substring(0, props.email.lastIndexOf("@"));
-  let domain = props.email.substring(props.email.lastIndexOf("@") + 1);
-  let urlForInbox = `https://www.1secmail.com/api/v1/?action=getMessages&login=${userName}&domain=${domain}`;
+  let [messages, setMessages] = useState([]);
 
-  let [mails, setMails] = useState([]);
-
-  /**
-   * Fetches the inbox from api
-   */
-  const fetchInbox = () => {
-    
-    fetch(urlForInbox)
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
-        setMails(data);
+  const fetchMessages = () => {
+    fetchInbox(props.email)
+      .then((messages) => {
+        setMessages(messages);
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
   };
 
-  /**
-   * renders the inbox table
-   */
+  /** renders the inbox table */
   const renderInbox = (mail) => {
     return (
       <tr key={mail.id} onClick={() => props.setActiveTab(mail.id)}>
-        <td>{mail.from}</td>
+        <td>{mail.from.substring(0, mail.from.lastIndexOf("@"))}</td>
         <td>{mail.subject}</td>
         <td>{mail.date}</td>
       </tr>
     );
   };
 
+  /** calls the @function fetchMessages every second */
+  useEffect(() => {
+    const interval = setInterval(function () {
+      fetchMessages();
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <div>
       <table className="table table-striped">
-        <tbody>{mails?.map(renderInbox)}</tbody>
+        <tbody>{messages?.map(renderInbox)}</tbody>
       </table>
-      <button className="btn btn-primary" onClick={fetchInbox}>
+      <button className="btn btn-primary" onClick={fetchMessages}>
         Refresh Inbox
       </button>
     </div>

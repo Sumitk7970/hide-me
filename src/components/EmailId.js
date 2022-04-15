@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { generateRandomEmail } from "../services/EmailService";
 
 export default function Email(props) {
-  const urlForFakeEmail =
-    "https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1";
-
   const generateEmail = () => {
-    fetch(urlForFakeEmail)
-      .then((response) => response.json())
-      .then((data) => {
-        props.setEmail(data[0]);
+    generateRandomEmail()
+      .then((email) => {
+        props.setEmail(email);
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
   };
 
   const copyEmail = () => {
     navigator.clipboard.writeText(props.email);
   };
+
+  useEffect(() => {
+    generateEmail();
+  }, []);
 
   return (
     <div>
