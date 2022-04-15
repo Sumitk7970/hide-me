@@ -25,6 +25,16 @@ export default function Inbox(props) {
     );
   };
 
+  /** calls the @function fetchMessages every second */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchMessages();
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <div>
       <h3>Inbox</h3>
