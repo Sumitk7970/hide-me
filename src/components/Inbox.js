@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { fetchInbox } from "../services/EmailService";
 
 export default function Inbox(props) {
@@ -13,7 +13,7 @@ export default function Inbox(props) {
         console.log(error.message);
       });
   };
-
+  
   /** renders the inbox table */
   const renderInbox = (message) => {
     return (
@@ -24,16 +24,6 @@ export default function Inbox(props) {
       </tr>
     );
   };
-
-  /** calls the @function fetchMessages every second */
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchMessages();
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   return (
     <div>
