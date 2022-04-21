@@ -1,5 +1,5 @@
 /**
- * @returns a random fake email id
+ * @returns a random fake email id from the api
  */
 export async function generateRandomEmail() {
   const url =
@@ -16,6 +16,7 @@ export async function generateRandomEmail() {
 }
 
 /**
+ * Fetches the inbox of the provided email address
  * @param {string} emailId email id for fetching the messages
  * @returns an array of message objects
  */
@@ -36,6 +37,7 @@ export async function fetchInbox(emailId) {
 }
 
 /**
+ * Fetches all the contents of a single message
  * @param {string} emailId email id in which the email is received
  * @param {number} messageId message id for the message
  * @returns a single message object

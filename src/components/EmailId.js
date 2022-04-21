@@ -2,6 +2,8 @@
 import React, { useEffect } from "react";
 
 export default function Email(props) {
+
+  /** copies the email id to the clipboard */
   const copyEmail = () => {
     navigator.clipboard.writeText(props.email);
   };

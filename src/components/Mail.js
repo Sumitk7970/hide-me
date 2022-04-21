@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import { fetchASingleMessage } from "../services/EmailService";
 
 export default function Mail(props) {
+  /** @param message is a single received email object */
   let [message, setMessage] = useState({});
 
-  const fetchMessage = () => {
+  /**
+   * gets a message from the @function fetchASingleMessage and sets it to @param message
+   */
+  const getMessage = () => {
     fetchASingleMessage(props.email, props.activeTab)
       .then((message) => {
         setMessage(message);
@@ -14,9 +18,9 @@ export default function Mail(props) {
       });
   };
 
+  /** Runs the @function getMessage when the Mail component is loaded */
   useEffect(() => {
-    console.info("Another second has slipped into the past.");
-    fetchMessage();
+    getMessage();
   }, []);
 
   return (
@@ -28,11 +32,6 @@ export default function Mail(props) {
       >
         Back
       </button>
-      {message === {} && (
-        <div>
-          <h1>Loading...</h1>
-        </div>
-      )}
       {message !== {} && (
         <div>
           <h5>{message.subject}</h5>

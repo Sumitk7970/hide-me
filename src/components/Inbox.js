@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { fetchInbox } from "../services/EmailService";
 
 export default function Inbox(props) {
+  
+  /** @param messages is the emails received to the email address */
   let [messages, setMessages] = useState();
 
-  const fetchMessages = () => {
+  /**
+   * gets the messages from the @function fetchInbox and sets it to @param messages
+   */
+  const getMessages = () => {
     fetchInbox(props.email)
       .then((messages) => {
         setMessages(messages);
@@ -14,7 +19,7 @@ export default function Inbox(props) {
       });
   };
   
-  /** renders the inbox table */
+  /** puts the messages data in the inbox table */
   const renderInbox = (message) => {
     return (
       <tr key={message.id} onClick={() => props.setActiveTab(message.id)}>
@@ -31,7 +36,7 @@ export default function Inbox(props) {
       <table className="table table-striped">
         <tbody>{messages?.map(renderInbox)}</tbody>
       </table>
-      <button className="btn btn-primary" onClick={fetchMessages}>
+      <button className="btn btn-primary" onClick={getMessages}>
         Refresh Inbox
       </button>
     </div>
