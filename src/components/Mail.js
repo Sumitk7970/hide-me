@@ -25,7 +25,7 @@ export default function Mail(props) {
 
   return (
     <div>
-      <button
+      <button className="btn btn-secondary my-2"
         onClick={() => {
           props.setActiveTab(-1);
         }}

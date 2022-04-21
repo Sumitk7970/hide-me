@@ -11,10 +11,10 @@ export default function Email(props) {
   return (
     <div>
       <h4>{props.email}</h4>
-      <button className="btn btn-outline-secondary" onClick={props.generateEmail}>
+      <button className="btn btn-outline-secondary mx-2" onClick={props.generateEmail}>
         Change
       </button>
-      <button className="btn btn-outline-primary" onClick={copyEmail}>
+      <button className="btn btn-outline-primary mx-2" onClick={copyEmail}>
         Copy
       </button>
     </div>
